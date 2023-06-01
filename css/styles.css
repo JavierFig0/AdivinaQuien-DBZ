@@ -1,0 +1,617 @@
+:root {
+  --btn-danger: rgb(187, 0, 0);
+  --btn-danger-border: rgb(205, 0, 0);
+  --btn-danger-hover: rgb(169, 0, 0);
+  --btn-danger-active: rgb(137, 0, 0);
+  --btn-success: rgb(0, 169, 17);
+  --btn-success-border: rgb(0, 190, 19);
+  --btn-success-hover: rgb(0, 143, 14);
+  --btn-success-active: rgb(0, 135, 13);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+  background-color: #4682B4;
+}
+
+/* SCROLL STYLE */
+::-webkit-scrollbar {
+  width: 10px; 
+  background-color: rgba(0, 0, 255, 0.5);
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0.3); 
+  border-radius: 5px; 
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 255, 0.7);
+  border-radius: 5px; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 255, 1); 
+}
+/* ************ */
+
+.inicio {
+  width: 100%;
+  height: 100vh;
+  background-image: url('../img/Goku.webp');
+}
+
+.inicio .LogoDBZ {
+  position: absolute;
+  width: 50%;
+  left: 15%;
+  background-color: hwb(0 0% 100% / 0);
+}
+
+.inicio .LogoAQ {
+  position: absolute;
+  left: 65%;
+  background-color: hwb(0 0% 100% / 0);
+}
+
+.inicio button {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  padding: 20px 40px 20px 40px;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 768px) {
+  .inicio .LogoDBZ {
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .inicio .LogoAQ {
+    width: 50%;
+    left: 25%; top: 25%;
+  }
+
+  .inicio button {
+    left: 50%;
+    top: 75%;
+    transform: translateX(-50%);
+  }
+}
+
+
+/*  */
+#juego {
+  display: none;
+}
+.disabled-button {
+  opacity: 0.5; /* Reduce la opacidad de los botones bloqueados */
+  pointer-events: none; /* Desactiva los eventos del mouse en los botones bloqueados */
+}
+
+
+#jugar-btn {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 50px;
+  font-family: 'Saiyan Sans', sans-serif;
+}
+/*  */
+
+.container {
+  position: absolute;
+  width: 100%;
+  margin: auto;
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+  height: 100vh;
+  overflow: hidden;
+     background-image: url('../img/Shen_Long.webp');
+}
+
+.title {
+  height: 5%;
+  display: flex;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.body {
+  height: 95%;
+  width: 100%;
+  padding: 0.5rem 0;
+}
+
+.tablero-container {
+  height: 80%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.4rem;
+  padding: 0.2rem;
+}
+
+.tablero-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.2rem;
+  border: 3px solid rgb(60, 58, 187);
+}
+
+
+/*  */
+
+/*  */
+
+/*  */
+.containerQ{
+  /* display: none; */
+  width: 100%;
+  height: 20%;
+  text-align: center;
+}
+
+.containerQ button{
+  width: 50%;
+  height: 50%;
+  margin: 30px;
+}
+/*  */
+
+.Question-Wrap{
+  background-color: #0b66c3;
+}
+
+/*  */
+.containerQuestions{
+  display: none;
+  width: 100%;
+  height: 20%;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.ButtonsQ {
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.ButtonsQ button {
+  display: flex;
+  width: 20%;
+  height: 50%;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .ButtonsQ button {
+    width: 30%;
+  }
+}
+
+@media (max-width: 480px) {
+  .ButtonsQ {
+    padding: 0;
+  }
+
+  .ButtonsQ button {
+    width: 60%;
+    height: 30%;
+    margin-bottom: 10px;
+  }
+
+  .ButtonsQ span{
+    display: none;
+  }
+
+
+}
+
+
+/*  */
+
+.containerQ button{
+  width: 50%;
+  height: 50%;
+
+}
+
+/*  */
+
+
+.PElegir-container {
+  position: absolute;
+  width: 7%;
+  height: 17%;
+  left: 90%;
+  display: flex;
+}
+
+.PElegir-item {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.2rem;
+  text-align: center;
+}
+
+.PElegir-item img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+}
+
+@media (max-width: 768px) {
+  .PElegir-container {
+    width: 100%;
+    height: auto;
+    left: 0;
+    right: 0;
+    justify-content: center;
+  }
+
+  .PElegir-item {
+    position: absolute;
+    width: 15%;
+    font-size: 13px;
+    margin: 10px;
+    left: 70%; 
+  }
+}
+
+
+.tablero-item.seleccionado {
+  border: solid 3px #e60c0c;
+}
+
+.tablero-item.desactivado ::after {
+  content: "\274c";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.427);
+  color: white;
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+div[class="tablero-item disabled"]::after {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  content: "\274c"; /* use the hex value here... */
+  font-size: 6rem;
+  line-height: 100px;
+  background-color: rgba(0, 0, 0, 0.427);
+}
+
+.tablero-item img {
+  width: 100%;
+  height: 80%;
+  object-position: center center;
+  object-fit: contain;
+}
+
+.tablero-item span {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 1rem;
+}
+
+
+/* Preguntas */
+
+.preguntas-container {
+  background-color: rgba(0, 0, 0, 0.642);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 2rem;
+}
+
+.btn-container {
+  height: 10%;
+  display: flex;
+  gap: 0.2rem;
+}
+
+.btn {
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn.btn-danger {
+  background-color: var(--btn-danger);
+  color: white;
+  border-color: var(--btn-danger-border);
+}
+
+.btn.btn-danger:hover {
+  background-color: var(--btn-danger-hover);
+}
+
+.btn.btn-danger:active {
+  background-color: var(--btn-danger-active);
+}
+
+.btn.btn-success {
+  background-color: var(--btn-success);
+  color: white;
+  border-color: var(--btn-success-border);
+}
+
+.btn.btn-success:hover {
+  background-color: var(--btn-success-hover);
+}
+
+.btn.btn-success:active {
+  background-color: var(--btn-success-active);
+}
+
+.shadow {
+  -webkit-box-shadow: 10px 10px 38px -3px rgba(0, 0, 0, 0.45);
+  -moz-box-shadow: 10px 10px 38px -3px rgba(0, 0, 0, 0.45);
+  box-shadow: 10px 10px 38px -3px rgba(0, 0, 0, 0.45);
+}
+
+.w-100 {
+  width: 100%;
+}
+
+
+/*********** ALERT ERROR ***********/
+
+.wrap-Questions {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.alert-Questions {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  left: 25%;
+  top: 25%;
+  /* display: none; */
+  background-color: #0b66c3;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+}
+
+.question-row {
+  background-color: #0b66c3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.alert-Questions h2 {
+  background-color: #0b66c3;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.alert-Questions button {
+  display: block;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #ffffff;
+  color: #0b66c3;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
+.error-color {
+  position: absolute;
+  background-color: #4320576c;
+  width: 100%;
+  height: 100%;
+}
+
+
+.alert-wrap{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: none; 
+}
+
+.error-color{
+  position: absolute;
+  background-color: #4320576c;
+  width: 100%;
+  height: 100%;
+}
+
+.alert-error{
+  position: absolute;
+  text-align: center;
+  background-color: #0b66c3;
+  width: 80%;
+  height: 50%;
+  float: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  top: 20%; left: 10%;
+  }
+
+  .alert-error img{
+      width: 40%;
+      margin-bottom: 20px;
+  }
+   
+  .alert-error h2{
+      margin-bottom: 20px;
+  }
+
+  .alert-error p{
+      margin-bottom: 20px;
+  }
+
+  .btn-alert{
+      padding: 5px;
+      border: solid 2px black;
+      cursor: pointer;
+  }
+
+
+
+
+/*************************************/
+
+.alert-text{
+  display: none;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold; /* Negrita */
+  background-color: #f24337;
+  border-radius: 20px;
+  border: 2px solid #000000; /* Borde negro */
+  position: absolute;
+  top: 40%; left: 25%;
+  width: 50%;
+  height: 20%;
+  float: left;
+  text-align: center;
+  padding-top: 5px;
+  }
+
+  .alert-text.green-bg {
+    background-color: green; /* Color de fondo verde */
+  }
+
+  .alert-text{
+    padding: 30px;
+    text-align: center;
+    font-size: 50px;
+  }
+
+  .character-wrap{
+    display: none;
+    width: 100%;
+    height: 100%;
+  }
+
+  .container-character {
+    position: absolute;
+    width: 50%;
+    height: 25%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FF4500;
+    border: solid 5px #0b66c3;
+    text-align: center;
+    border-radius: 50px;
+    padding: 2%;
+  }
+  
+  .container-character span {
+    background-color: #FF4500;
+    font-size: 5vh;
+  }
+  
+  .container-character button {
+    border: none;
+    padding: 2% 4%;
+    text-align: center;
+    display: inline-block;
+    font-size: 1.5vh;
+    margin: 2%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 50px;
+    overflow: hidden;
+    background-color: #0000FF;
+    color: #FFFFFF;
+    font-size: 15px;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .container-character {
+      width: 90%;
+      height: 25%;
+      padding: 4%;
+    }
+  
+    .container-character span {
+      font-size: 4vh;
+    }
+  
+    .container-character button {
+      padding: 8% 8%;
+      font-size: 3vh;
+      margin: 4%;
+    }
+  }
+  
+  .character img{
+    width: 70px;
+  }
+
+  .btn {
+    background-color: #FF0000;
+    color: #FFF;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .btn:hover {
+    background-color: #FF4500;
+  }
+
+  .btn:disabled {
+    background-color: #CCCCCC;
+    cursor: not-allowed;
+  }
+
+
+
+
+
+
+

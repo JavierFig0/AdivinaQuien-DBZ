@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="shortcut icon" href="img/Esfera.png">
+  <title>Adivina Quien DBZ</title>
+</head>
+
+<body>
+
+  <div id="inicio" class="inicio">
+    <img src="img/Logo.png" alt="LogoDBZ" class="LogoDBZ">
+    <img src="img/AQuien.png" alt="LogoAQ" class="LogoAQ">
+    <button id="jugar-btn" class="btn" onclick="mostrarJuego()">Jugar</button>
+  </div>
+
+  <div id="juego" class="animate__animated">
+    <div class="container shadow">
+      <div class="title"><span id="TittleSpan">Escoge tu personaje</span></div>
+      <div class="body">
+        <div id="tablero" class="tablero-container">
+        </div>
+        
+  
+        <div class="containerQ" id="containerQ">
+          <button id="btnElegir" class="btnElegir btn">Elegir Personaje</button>
+
+        </div>
+
+        <div class="containerQuestions" id="containerQuestions">
+          
+          <div id="PElegir" class="PElegir-container"></div>
+          <div class="ButtonsQ">
+          <button id="btnPreguntas" class="btnPreguntas btn">preguntas</button>
+          <button id="btnTurno" class="btnTurno btn">Turno CPU</button>
+          <button id="btnAdivinar" class="btnAdivinar btn">Adivina</button>
+          <span>Tu Personaje:</span>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
+  
+  
+
+
+            <!-- PREGUNTAS CPU -->
+  <div class="alert-wrap" id="alert-wrap">
+    <div class="error-color"> </div>
+    <div class="alert-error" id="alert-error">
+
+      <div class="preguntas-container">
+        <span id="pregunta"></span>
+      </div>
+
+      <div class="btn-container">
+        <button id="btn_si" class="btn btn-success w-100">Si</button>
+        <button id="btn_no" class="btn btn-danger w-100">No</button>
+      </div>
+
+    </div>
+</div>
+
+
+            <!-- Preguntas de Usuarios -->
+      <div class="alert-wrap" id="alert-wrap">
+        <div class="error-color"> </div>
+        <div class="alert-error" id="alert-error">
+        
+          <div class="preguntas-container">
+          <span id="pregunta"></span>
+          </div>
+          
+          <div class="btn-container">
+          <button id="btn_si" class="btn btn-success w-100">Si</button>
+          <button id="btn_no" class="btn btn-danger w-100">No</button>
+          </div>
+          
+          </div>
+          </div>
+
+                <!-- Preguntas de Usuarios -->
+                <div class="wrap-Questions" id="wrap-Questions">
+                  <div class="error-color"></div>
+                  <div class="alert-Questions" id="alert-Questions">
+                    <h2>Realiza tu pregunta</h2>
+                    <div class="question-row">
+                      <button onclick="askQuestion('colorCabello')">¿El personaje tiene el cabello de color negro?</button>
+                      <button onclick="askQuestion('sexo')">¿El personaje es mujer?</button>
+                      <button onclick="askQuestion('colorRopa')">¿El personaje utiliza ropa de color naranja?</button>
+                      <button onclick="askQuestion('accesoriosCabeza')">¿Tu personaje utiliza algún accesorio en la cabeza?</button>
+                      <button onclick="askQuestion('raza')">¿El personaje es un saiyajin?</button>
+                      <button onclick="askQuestion('fusion')">¿Tu personaje se ha fusionado con otro personaje?</button>
+                    </div>
+                    <div class="question-row">
+                      <button onclick="askQuestion('Edad')">¿El personaje es un niño?</button>
+                      <button onclick="askQuestion('capa')">¿Tu personaje utiliza capa o un caparazón?</button>
+                      <button onclick="askQuestion('revivido')">¿Tu personaje ha sido revivido con las esferas del Dragón?</button>
+                      <button onclick="askQuestion('TipoCabello')">¿Tu personaje es calvo?</button>
+                      <button onclick="askQuestion('torneo')">¿Tu personaje ha participado en torneos de artes marciales?</button>
+                      <button onclick="askQuestion('Transformacion')">¿Tu personaje tiene algún tipo de transformación?</button>
+                    </div>
+                  </div>
+                </div>
+
+                    <!-- ALERT TEXT -->
+                <div class="alert-text" id="alert-text">
+                  <div class="wrapper-alertT">
+                  <p>Aquí va el texto</p>
+              </div>
+          </div>
+
+
+          <!-- PERSONAJE ADIVINADO -->
+          <div class="character-wrap" id="character-wrap"> 
+            <div class="error-color"> </div>
+            <div class="container-character" id="container-character">
+                <span id="spanCharacter">Tu Personaje es</span>
+                <div class="character" id="character"></div>
+                <button class="btncharacter" id="btncharacter">Jugar de Nuevo</button>
+          </div>
+          </div>
+                
+                
+
+
+
+  <script src="./js/main.js"></script>
+</body>
+
+</html>
