@@ -1,617 +1,1310 @@
+/* =========================================================
+   ADIVINA QUIÉN DBZ — ESTILO ARCADE
+   ========================================================= */
+
 :root {
-  --btn-danger: rgb(187, 0, 0);
-  --btn-danger-border: rgb(205, 0, 0);
-  --btn-danger-hover: rgb(169, 0, 0);
-  --btn-danger-active: rgb(137, 0, 0);
-  --btn-success: rgb(0, 169, 17);
-  --btn-success-border: rgb(0, 190, 19);
-  --btn-success-hover: rgb(0, 143, 14);
-  --btn-success-active: rgb(0, 135, 13);
+  --fondo: #0a0f26;
+  --panel: #141b3d;
+  --panel-claro: #1d2652;
+  --borde: #2c3878;
+
+  --naranja: #ff8a1c;
+  --naranja-oscuro: #e0670a;
+  --amarillo: #ffd23f;
+  --azul: #3d8bff;
+  --rojo: #ff4d5a;
+  --verde: #2ed47a;
+
+  --texto: #f2f4ff;
+  --texto-suave: #9ea9dc;
+
+  --radio: 14px;
+  --sombra: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --brillo-ki: 0 0 0 2px var(--amarillo), 0 0 22px rgba(255, 190, 40, 0.65);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Arial', sans-serif;
-  background-color: #4682B4;
 }
 
-/* SCROLL STYLE */
+body {
+  min-height: 100vh;
+  font-family: "Nunito", "Segoe UI", Arial, sans-serif;
+  color: var(--texto);
+  background-color: var(--fondo);
+  /* Destellos de ki + estrellas */
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(61, 139, 255, 0.25), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(255, 138, 28, 0.18), transparent 45%),
+    radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 70% 15%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 40% 80%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 90% 50%, rgba(255, 255, 255, 0.6), transparent);
+  background-attachment: fixed;
+}
+
+button {
+  font-family: inherit;
+}
+
+.oculto {
+  display: none !important;
+}
+
+/* SCROLL (Firefox usa scrollbar-color, Chrome usa ::-webkit-scrollbar) */
+html,
+.modal-caja,
+.historial-lista {
+  scrollbar-color: var(--borde) var(--panel);
+  scrollbar-width: thin;
+}
+
 ::-webkit-scrollbar {
-  width: 10px; 
-  background-color: rgba(0, 0, 255, 0.5);
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: rgba(255, 255, 255, 0.3); 
-  border-radius: 5px; 
+  background: var(--panel);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 255, 0.7);
-  border-radius: 5px; 
+  background: var(--borde);
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 255, 1); 
-}
-/* ************ */
-
-.inicio {
-  width: 100%;
-  height: 100vh;
-  background-image: url('../img/Goku.webp');
+  background: var(--naranja);
 }
 
-.inicio .LogoDBZ {
-  position: absolute;
-  width: 50%;
-  left: 15%;
-  background-color: hwb(0 0% 100% / 0);
-}
-
-.inicio .LogoAQ {
-  position: absolute;
-  left: 65%;
-  background-color: hwb(0 0% 100% / 0);
-}
-
-.inicio button {
-  position: absolute;
-  left: 50%;
-  top: 60%;
-  padding: 20px 40px 20px 40px;
-  transform: translateX(-50%);
-}
-
-@media (max-width: 768px) {
-  .inicio .LogoDBZ {
-    width: 90%;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .inicio .LogoAQ {
-    width: 50%;
-    left: 25%; top: 25%;
-  }
-
-  .inicio button {
-    left: 50%;
-    top: 75%;
-    transform: translateX(-50%);
-  }
-}
-
-
-/*  */
-#juego {
-  display: none;
-}
-.disabled-button {
-  opacity: 0.5; /* Reduce la opacidad de los botones bloqueados */
-  pointer-events: none; /* Desactiva los eventos del mouse en los botones bloqueados */
-}
-
-
-#jugar-btn {
-  display: block;
-  margin: 0 auto;
-  text-align: center;
-  margin-top: 50px;
-  font-family: 'Saiyan Sans', sans-serif;
-}
-/*  */
-
-.container {
-  position: absolute;
-  width: 100%;
-  margin: auto;
-  border-radius: 0.2rem;
-  padding: 0.5rem;
-  height: 100vh;
-  overflow: hidden;
-     background-image: url('../img/Shen_Long.webp');
-}
-
-.title {
-  height: 5%;
-  display: flex;
-  justify-content: center;
-  font-size: 2rem;
-}
-
-.body {
-  height: 95%;
-  width: 100%;
-  padding: 0.5rem 0;
-}
-
-.tablero-container {
-  height: 80%;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 0.4rem;
-  padding: 0.2rem;
-}
-
-.tablero-item {
-  position: relative;
-  overflow: hidden;
-  border-radius: 0.2rem;
-  border: 3px solid rgb(60, 58, 187);
-}
-
-
-/*  */
-
-/*  */
-
-/*  */
-.containerQ{
-  /* display: none; */
-  width: 100%;
-  height: 20%;
-  text-align: center;
-}
-
-.containerQ button{
-  width: 50%;
-  height: 50%;
-  margin: 30px;
-}
-/*  */
-
-.Question-Wrap{
-  background-color: #0b66c3;
-}
-
-/*  */
-.containerQuestions{
-  display: none;
-  width: 100%;
-  height: 20%;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-}
-
-.ButtonsQ {
-  width: 90%;
-  height: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 40px;
-}
-
-.ButtonsQ button {
-  display: flex;
-  width: 20%;
-  height: 50%;
-  justify-content: center;
-  align-items: center;
-}
-
-@media (max-width: 768px) {
-  .ButtonsQ button {
-    width: 30%;
-  }
-}
-
-@media (max-width: 480px) {
-  .ButtonsQ {
-    padding: 0;
-  }
-
-  .ButtonsQ button {
-    width: 60%;
-    height: 30%;
-    margin-bottom: 10px;
-  }
-
-  .ButtonsQ span{
-    display: none;
-  }
-
-
-}
-
-
-/*  */
-
-.containerQ button{
-  width: 50%;
-  height: 50%;
-
-}
-
-/*  */
-
-
-.PElegir-container {
-  position: absolute;
-  width: 7%;
-  height: 17%;
-  left: 90%;
-  display: flex;
-}
-
-.PElegir-item {
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  border-radius: 0.2rem;
-  text-align: center;
-}
-
-.PElegir-item img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  object-position: center;
-}
-
-@media (max-width: 768px) {
-  .PElegir-container {
-    width: 100%;
-    height: auto;
-    left: 0;
-    right: 0;
-    justify-content: center;
-  }
-
-  .PElegir-item {
-    position: absolute;
-    width: 15%;
-    font-size: 13px;
-    margin: 10px;
-    left: 70%; 
-  }
-}
-
-
-.tablero-item.seleccionado {
-  border: solid 3px #e60c0c;
-}
-
-.tablero-item.desactivado ::after {
-  content: "\274c";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.427);
-  color: white;
-  font-size: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-div[class="tablero-item disabled"]::after {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  content: "\274c"; /* use the hex value here... */
-  font-size: 6rem;
-  line-height: 100px;
-  background-color: rgba(0, 0, 0, 0.427);
-}
-
-.tablero-item img {
-  width: 100%;
-  height: 80%;
-  object-position: center center;
-  object-fit: contain;
-}
-
-.tablero-item span {
-  display: block;
-  width: 100%;
-  text-align: center;
-  font-size: 1rem;
-}
-
-
-/* Preguntas */
-
-.preguntas-container {
-  background-color: rgba(0, 0, 0, 0.642);
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: 2rem;
-}
-
-.btn-container {
-  height: 10%;
-  display: flex;
-  gap: 0.2rem;
-}
+/* =========================================================
+   BOTONES
+   ========================================================= */
 
 .btn {
-  padding: 0.5rem;
-  border-radius: 0.2rem;
-  font-weight: bold;
+  font-family: "Bangers", "Nunito", sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: 1px;
+  padding: 0.6rem 1.4rem;
+  border: none;
+  border-radius: 999px;
+  color: var(--texto);
   cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, background-color 0.15s, opacity 0.15s;
 }
 
-.btn.btn-danger {
-  background-color: var(--btn-danger);
-  color: white;
-  border-color: var(--btn-danger-border);
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
 }
 
-.btn.btn-danger:hover {
-  background-color: var(--btn-danger-hover);
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
-.btn.btn-danger:active {
-  background-color: var(--btn-danger-active);
+.btn:focus-visible,
+.carta:focus-visible,
+.opcion:focus-visible,
+.pestana:focus-visible,
+.modo:focus-visible,
+.pregunta-btn:focus-visible {
+  outline: 3px solid var(--amarillo);
+  outline-offset: 2px;
 }
 
-.btn.btn-success {
-  background-color: var(--btn-success);
-  color: white;
-  border-color: var(--btn-success-border);
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
-.btn.btn-success:hover {
-  background-color: var(--btn-success-hover);
+.btn-ki {
+  background: linear-gradient(180deg, var(--naranja), var(--naranja-oscuro));
+  color: #1a0e00;
+  box-shadow: 0 4px 0 #9c4500, 0 0 18px rgba(255, 138, 28, 0.35);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
-.btn.btn-success:active {
-  background-color: var(--btn-success-active);
+.btn-ki:hover:not(:disabled) {
+  box-shadow: 0 6px 0 #9c4500, 0 0 26px rgba(255, 170, 40, 0.6);
 }
 
-.shadow {
-  -webkit-box-shadow: 10px 10px 38px -3px rgba(0, 0, 0, 0.45);
-  -moz-box-shadow: 10px 10px 38px -3px rgba(0, 0, 0, 0.45);
-  box-shadow: 10px 10px 38px -3px rgba(0, 0, 0, 0.45);
+.btn-secundario {
+  background: var(--panel-claro);
+  border: 2px solid var(--azul);
+  box-shadow: 0 4px 0 #1b3f86;
 }
 
-.w-100 {
-  width: 100%;
+.btn-si {
+  background: var(--verde);
+  color: #04210f;
+  box-shadow: 0 4px 0 #168a4b;
 }
 
+.btn-no {
+  background: var(--rojo);
+  box-shadow: 0 4px 0 #a3202b;
+}
 
-/*********** ALERT ERROR ***********/
+.btn-grande {
+  font-size: 2rem;
+  padding: 0.7rem 3rem;
+}
 
-.wrap-Questions {
+.btn-chico {
+  font-size: 1rem;
+  padding: 0.35rem 1rem;
+}
+
+/* =========================================================
+   PANTALLA DE INICIO
+   ========================================================= */
+
+/* Ocupa exactamente la pantalla; los tamaños usan vh para que todo quepa */
+.inicio {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  padding: 2vh 1rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+}
+
+.inicio::before {
+  content: "";
   position: absolute;
-  width: 100%;
-  height: 100%;
-  display: none;
+  inset: 0;
+  background: url("../img/Shen_Long.webp") center / min(900px, 120%) no-repeat;
+  opacity: 0.12;
+  pointer-events: none;
 }
 
-.alert-Questions {
-  position: absolute;
-  width: 50%;
-  height: 50%;
-  left: 25%;
-  top: 25%;
-  /* display: none; */
-  background-color: #0b66c3;
-  border-radius: 20px;
-  padding: 20px;
-  text-align: center;
-  color: white;
+.inicio-contenido {
+  position: relative;
+  width: min(560px, 100%);
+  margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: auto;
+  gap: clamp(0.5rem, 1.8vh, 1.2rem);
+  text-align: center;
+  animation: aparecer 0.6s ease-out;
 }
 
-.question-row {
-  background-color: #0b66c3;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 10px;
+/* La imagen tiene mucho espacio transparente arriba y abajo: se recorta con object-fit */
+.logo-dbz {
+  width: min(100%, 560px, 58vh);
+  aspect-ratio: 1024 / 250;
+  object-fit: cover;
+  object-position: 50% 42%;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6));
 }
 
-.alert-Questions h2 {
-  background-color: #0b66c3;
-  margin-top: 0;
-  margin-bottom: 10px;
+.logo-aquien {
+  height: clamp(56px, 12vh, 130px);
+  animation: flotar 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 18px rgba(255, 210, 63, 0.45));
 }
 
-.alert-Questions button {
+.dificultad {
+  width: 100%;
+  background: rgba(20, 27, 61, 0.85);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 1rem;
+}
+
+.dificultad-titulo {
   display: block;
-  margin-bottom: 10px;
-  padding: 10px;
-  background-color: #ffffff;
-  color: #0b66c3;
+  font-family: "Bangers", sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  color: var(--amarillo);
+  margin-bottom: 0.6rem;
+}
+
+.dificultad-opciones {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+}
+
+/* Pestañas de modo: Contra el CPU / Con un amigo */
+.modos {
+  display: flex;
+  gap: 0.4rem;
+  padding: 0.3rem;
+  border-radius: 999px;
+  background: rgba(20, 27, 61, 0.85);
+  border: 1px solid var(--borde);
+}
+
+.modo {
+  padding: 0.5rem 1.2rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--texto-suave);
+  font-weight: 800;
+  font-size: 1rem;
   cursor: pointer;
 }
 
-
-
-.error-color {
-  position: absolute;
-  background-color: #4320576c;
-  width: 100%;
-  height: 100%;
+.modo.activa {
+  background: var(--naranja);
+  color: #1a0e00;
 }
 
-
-.alert-wrap{
-  position: absolute;
+.menu-modo {
   width: 100%;
-  height: 100%;
-  display: none; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.5rem, 1.8vh, 1.2rem);
 }
 
-.error-color{
-  position: absolute;
-  background-color: #4320576c;
+/* Sala multijugador */
+.sala {
   width: 100%;
-  height: 100%;
+  background: rgba(20, 27, 61, 0.85);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 1rem;
 }
 
-.alert-error{
-  position: absolute;
+.sala-inicio,
+.sala-creada {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.sala-separador {
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+
+.sala-unirse {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 340px;
+}
+
+.sala-unirse input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  border: 2px solid var(--borde);
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: "Bangers", sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 4px;
   text-align: center;
-  background-color: #0b66c3;
-  width: 80%;
-  height: 50%;
-  float: left;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  top: 20%; left: 10%;
-  }
+  text-transform: uppercase;
+}
 
-  .alert-error img{
-      width: 40%;
-      margin-bottom: 20px;
-  }
-   
-  .alert-error h2{
-      margin-bottom: 20px;
-  }
+.sala-unirse input:focus {
+  outline: none;
+  border-color: var(--naranja);
+}
 
-  .alert-error p{
-      margin-bottom: 20px;
-  }
+.sala-codigo {
+  font-family: "Bangers", sans-serif;
+  font-size: clamp(2.6rem, 8vh, 3.6rem);
+  line-height: 1;
+  letter-spacing: 10px;
+  color: var(--amarillo);
+  text-shadow: 3px 3px 0 #b3400a, 0 0 24px rgba(255, 190, 40, 0.6);
+  user-select: all;
+}
 
-  .btn-alert{
-      padding: 5px;
-      border: solid 2px black;
-      cursor: pointer;
-  }
+.sala-botones {
+  display: flex;
+  gap: 0.5rem;
+}
 
+.sala-estado {
+  min-height: 1.3rem;
+  margin-top: 0.7rem;
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
 
-
-
-/*************************************/
-
-.alert-text{
+.sala-estado:empty {
   display: none;
-  font-family: 'Arial', sans-serif;
-  font-weight: bold; /* Negrita */
-  background-color: #f24337;
-  border-radius: 20px;
-  border: 2px solid #000000; /* Borde negro */
-  position: absolute;
-  top: 40%; left: 25%;
-  width: 50%;
-  height: 20%;
-  float: left;
-  text-align: center;
-  padding-top: 5px;
-  }
+}
 
-  .alert-text.green-bg {
-    background-color: green; /* Color de fondo verde */
-  }
+.sala-estado.error {
+  color: var(--rojo);
+  font-weight: 700;
+}
 
-  .alert-text{
-    padding: 30px;
-    text-align: center;
-    font-size: 50px;
-  }
+.opcion {
+  flex: 1;
+  max-width: 180px;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  border: 2px solid var(--borde);
+  background: var(--panel-claro);
+  color: var(--texto-suave);
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
 
-  .character-wrap{
+.opcion.activa {
+  border-color: var(--naranja);
+  color: var(--texto);
+  box-shadow: 0 0 14px rgba(255, 138, 28, 0.45);
+}
+
+.dificultad-ayuda {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+
+.como-jugar {
+  text-align: left;
+  color: var(--texto-suave);
+  font-size: clamp(0.8rem, 1.9vh, 0.95rem);
+  line-height: 1.6;
+  padding-left: 1.4rem;
+}
+
+/* En pantallas bajitas no caben las instrucciones */
+@media (max-height: 700px) {
+  .como-jugar {
     display: none;
+  }
+}
+
+@media (max-height: 480px) {
+  .logo-aquien {
+    display: none;
+  }
+}
+
+@media (max-height: 560px) {
+  .inicio .btn-grande {
+    font-size: 1.5rem;
+    padding: 0.5rem 2.5rem;
+  }
+}
+
+/* =========================================================
+   PANTALLA DE JUEGO
+   ========================================================= */
+
+.juego {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  animation: aparecer 0.4s ease-out;
+}
+
+/* Barra superior */
+.barra {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.7rem 1.5rem;
+  background: rgba(10, 15, 38, 0.85);
+  border-bottom: 2px solid var(--borde);
+  backdrop-filter: blur(6px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.btn-inicio {
+  font-size: 1.1rem;
+  padding: 0.4rem 1rem;
+}
+
+.barra-esfera {
+  width: 42px;
+  height: 42px;
+  animation: girar 12s linear infinite;
+}
+
+.barra-titulo {
+  flex: 1;
+  font-family: "Bangers", sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  letter-spacing: 1.5px;
+  color: var(--amarillo);
+  text-shadow: 2px 2px 0 #b3400a, 0 0 18px rgba(255, 190, 40, 0.45);
+}
+
+.marcadores {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.marcador {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  column-gap: 0.6rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 10px;
+  background: var(--panel);
+  border: 1px solid var(--borde);
+  border-left: 4px solid var(--naranja);
+}
+
+.marcador-cpu {
+  border-left-color: var(--azul);
+}
+
+.marcador-etiqueta {
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.marcador-valor {
+  grid-row: span 2;
+  font-family: "Bangers", sans-serif;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.marcador-extra {
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+/* Aviso modo adivinar */
+.aviso-adivinar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.6rem 1rem;
+  background: linear-gradient(90deg, #7a2a00, #c2560a, #7a2a00);
+  font-weight: 800;
+  text-align: center;
+  animation: aparecer 0.25s ease-out;
+}
+
+/* Tablero + panel lateral */
+.zona-juego {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.2rem;
+  padding: 1.2rem 1.5rem 1.5rem;
+  align-items: start;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* 24 personajes = 8 columnas x 3 filas */
+.tablero {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 0.75rem;
+}
+
+/* =========================================================
+   CARTAS DE PERSONAJE
+   ========================================================= */
+
+.carta {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--borde);
+  border-radius: var(--radio);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(61, 139, 255, 0.35), transparent 65%),
+    linear-gradient(180deg, var(--panel-claro), var(--panel));
+  color: var(--texto);
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s, filter 0.25s, opacity 0.25s;
+  animation: aparecer 0.4s ease-out backwards;
+}
+
+.carta img {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  padding: 0.5rem 0.4rem 0;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+  transition: transform 0.2s;
+}
+
+.carta-nombre {
+  font-family: "Bangers", sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.8px;
+  padding: 0.25rem 0.3rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.45);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.carta:hover {
+  transform: translateY(-4px);
+  border-color: var(--naranja);
+  box-shadow: 0 8px 22px rgba(255, 138, 28, 0.35);
+}
+
+.carta:hover img {
+  transform: scale(1.06);
+}
+
+.carta.seleccionada {
+  border-color: var(--amarillo);
+  box-shadow: var(--brillo-ki);
+}
+
+.carta.seleccionada::before {
+  content: "TÚ";
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 1;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--amarillo);
+  color: #1a0e00;
+  font-family: "Bangers", sans-serif;
+  letter-spacing: 1px;
+}
+
+/* Personaje tachado (el filtro va en la imagen para que la ✖ siga roja) */
+.carta.descartada {
+  opacity: 0.7;
+  transform: scale(0.96);
+}
+
+.carta.descartada img,
+.carta.descartada .carta-nombre {
+  filter: grayscale(1) brightness(0.45);
+}
+
+.carta.descartada::after {
+  content: "✖";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  color: var(--rojo);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.carta.descartada:hover {
+  transform: scale(0.98);
+  box-shadow: none;
+}
+
+.modo-adivinar .carta:not(.descartada) {
+  border-color: var(--amarillo);
+  animation: latido-ki 1.4s ease-in-out infinite;
+}
+
+.modo-adivinar .carta.descartada {
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   PANEL LATERAL
+   ========================================================= */
+
+.panel {
+  position: sticky;
+  top: 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+#panelPartida {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.panel-bloque {
+  background: var(--panel);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 1rem;
+}
+
+.panel-texto {
+  color: var(--texto-suave);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.panel-bloque .btn {
+  width: 100%;
+}
+
+.panel-subtitulo {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--texto-suave);
+  margin-bottom: 0.5rem;
+}
+
+.turno {
+  font-family: "Bangers", sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 1px;
+  text-align: center;
+  color: var(--amarillo);
+  border-color: var(--naranja);
+}
+
+.turno.turno-cpu {
+  color: var(--azul);
+  border-color: var(--azul);
+}
+
+.mi-personaje {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mi-personaje-carta {
+  width: 130px;
+  aspect-ratio: 3 / 4;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--amarillo);
+  border-radius: var(--radio);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(255, 210, 63, 0.35), transparent 65%),
+    linear-gradient(180deg, var(--panel-claro), var(--panel));
+  box-shadow: 0 0 18px rgba(255, 190, 40, 0.3);
+  margin: 0 auto;
+}
+
+.mi-personaje-carta img {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  padding: 0.4rem 0.3rem 0;
+}
+
+.mi-personaje-carta span {
+  font-family: "Bangers", sans-serif;
+  letter-spacing: 0.8px;
+  text-align: center;
+  padding: 0.2rem;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.mi-personaje-carta.mini {
+  width: 70px;
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.panel-acciones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+/* Historial */
+.historial-lista {
+  list-style: none;
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding-right: 0.2rem;
+}
+
+.historial-lista li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  padding: 0.45rem 0.55rem;
+  border-radius: 8px;
+  background: var(--panel-claro);
+  animation: aparecer 0.3s ease-out;
+}
+
+.historial-lista .historial-vacio {
+  display: block;
+  color: var(--texto-suave);
+  background: none;
+  padding: 0;
+}
+
+.historial-quien {
+  font-weight: 800;
+  font-size: 0.7rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: var(--naranja);
+  color: #1a0e00;
+}
+
+.historial-quien.cpu {
+  background: var(--azul);
+  color: #fff;
+}
+
+.etiqueta-si,
+.etiqueta-no {
+  font-weight: 800;
+  font-size: 0.8rem;
+}
+
+.etiqueta-si {
+  color: var(--verde);
+}
+
+.etiqueta-no {
+  color: var(--rojo);
+}
+
+/* =========================================================
+   MODALES
+   ========================================================= */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(4, 7, 22, 0.75);
+  backdrop-filter: blur(4px);
+  animation: aparecer 0.2s ease-out;
+}
+
+.modal-caja {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  padding: 1.6rem;
+  border-radius: 20px;
+  background: linear-gradient(180deg, var(--panel-claro), var(--panel));
+  border: 2px solid var(--borde);
+  box-shadow: var(--sombra);
+  animation: saltar 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+.modal-cerrar {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.9rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: var(--panel);
+  color: var(--texto-suave);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.modal-cerrar:hover {
+  color: var(--texto);
+  background: var(--rojo);
+}
+
+.modal-titulo {
+  font-family: "Bangers", sans-serif;
+  font-weight: 400;
+  font-size: 2rem;
+  letter-spacing: 1px;
+  color: var(--amarillo);
+  margin-bottom: 1rem;
+  padding-right: 2rem;
+}
+
+.modal-etiqueta {
+  display: inline-block;
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: var(--azul);
+  margin-bottom: 0.7rem;
+}
+
+/* Modal de preguntas */
+.modal-preguntas {
+  width: min(720px, 100%);
+}
+
+.escribir {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.escribir input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  border: 2px solid var(--borde);
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.escribir input:focus {
+  outline: none;
+  border-color: var(--naranja);
+  box-shadow: 0 0 12px rgba(255, 138, 28, 0.35);
+}
+
+.escribir-mensaje {
+  min-height: 1.4rem;
+  margin: 0.6rem 0 0.4rem;
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+
+.escribir-mensaje.error {
+  color: var(--rojo);
+}
+
+.sugerencias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.sugerencia {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--naranja);
+  background: transparent;
+  color: var(--texto);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.sugerencia:hover {
+  background: var(--naranja);
+  color: #1a0e00;
+}
+
+.pestanas {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.9rem;
+}
+
+.pestana {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 2px solid var(--borde);
+  background: transparent;
+  color: var(--texto-suave);
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.pestana.activa {
+  background: var(--naranja);
+  border-color: var(--naranja);
+  color: #1a0e00;
+}
+
+.lista-preguntas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.5rem;
+}
+
+.pregunta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  text-align: left;
+  padding: 0.7rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid var(--borde);
+  background: var(--fondo);
+  color: var(--texto);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.pregunta-btn:hover:not(:disabled) {
+  border-color: var(--naranja);
+  background: #1a1430;
+}
+
+.pregunta-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* Modal del CPU */
+.modal-cpu {
+  text-align: center;
+  border-color: var(--azul);
+}
+
+.modal-cpu .modal-titulo {
+  padding: 0;
+  color: var(--texto);
+}
+
+.cpu-referencia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+.si-no {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.si-no .btn {
+  font-size: 1.8rem;
+}
+
+.pista {
+  min-height: 1.4rem;
+  margin-top: 0.9rem;
+  color: var(--amarillo);
+  font-weight: 700;
+}
+
+.sacudir {
+  animation: sacudir 0.4s;
+}
+
+/* Respuesta grande SÍ / NO */
+.respuesta {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1rem;
+  text-align: center;
+  background: rgba(4, 7, 22, 0.6);
+  pointer-events: none;
+}
+
+.respuesta-pregunta {
+  font-weight: 800;
+  font-size: 1.2rem;
+  max-width: 560px;
+}
+
+.respuesta-texto {
+  font-family: "Bangers", sans-serif;
+  font-size: clamp(5rem, 18vw, 9rem);
+  line-height: 1;
+  letter-spacing: 4px;
+  animation: saltar 0.4s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+
+.respuesta.si .respuesta-texto {
+  color: var(--verde);
+  text-shadow: 0 0 30px rgba(46, 212, 122, 0.7), 4px 4px 0 #0b5d31;
+}
+
+.respuesta.no .respuesta-texto {
+  color: var(--rojo);
+  text-shadow: 0 0 30px rgba(255, 77, 90, 0.7), 4px 4px 0 #7a1019;
+}
+
+/* Fin de partida */
+.modal-fin {
+  text-align: center;
+}
+
+.fin-titulo {
+  font-family: "Bangers", sans-serif;
+  font-weight: 400;
+  font-size: clamp(2.6rem, 9vw, 4rem);
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.fin-titulo.gana {
+  color: var(--amarillo);
+  text-shadow: 3px 3px 0 #b3400a, 0 0 30px rgba(255, 190, 40, 0.7);
+}
+
+.fin-titulo.pierde {
+  color: var(--rojo);
+  text-shadow: 3px 3px 0 #7a1019;
+}
+
+.fin-texto {
+  margin: 0.8rem 0 1.2rem;
+  font-size: 1.1rem;
+}
+
+.fin-cartas {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.fin-stats {
+  color: var(--texto-suave);
+  margin-bottom: 1.3rem;
+}
+
+.fin-botones {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.btn-sonido {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 70;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid var(--borde);
+  background: var(--panel);
+  font-size: 1.3rem;
+  cursor: pointer;
+  box-shadow: var(--sombra);
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.btn-sonido:hover {
+  border-color: var(--naranja);
+  transform: scale(1.08);
+}
+
+.btn-sonido:focus-visible {
+  outline: 3px solid var(--amarillo);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   ANIMACIONES
+   ========================================================= */
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes saltar {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes flotar {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes latido-ki {
+  50% {
+    box-shadow: var(--brillo-ki);
+  }
+}
+
+@keyframes sacudir {
+  20%, 60% {
+    transform: translateX(-8px);
+  }
+  40%, 80% {
+    transform: translateX(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1150px) {
+  .tablero {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  /* Barra superior en dos filas: título + Inicio arriba, marcadores abajo */
+  .barra {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .marcadores {
     width: 100%;
-    height: 100%;
+    order: 1;
   }
 
-  .container-character {
-    position: absolute;
-    width: 50%;
-    height: 25%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #FF4500;
-    border: solid 5px #0b66c3;
-    text-align: center;
-    border-radius: 50px;
-    padding: 2%;
-  }
-  
-  .container-character span {
-    background-color: #FF4500;
-    font-size: 5vh;
-  }
-  
-  .container-character button {
-    border: none;
-    padding: 2% 4%;
-    text-align: center;
-    display: inline-block;
-    font-size: 1.5vh;
-    margin: 2%;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    border-radius: 50px;
-    overflow: hidden;
-    background-color: #0000FF;
-    color: #FFFFFF;
-    font-size: 15px;
-  }
-  
-  @media screen and (max-width: 600px) {
-    .container-character {
-      width: 90%;
-      height: 25%;
-      padding: 4%;
-    }
-  
-    .container-character span {
-      font-size: 4vh;
-    }
-  
-    .container-character button {
-      padding: 8% 8%;
-      font-size: 3vh;
-      margin: 4%;
-    }
-  }
-  
-  .character img{
-    width: 70px;
+  .marcador {
+    flex: 1;
   }
 
-  .btn {
-    background-color: #FF0000;
-    color: #FFF;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  .zona-juego {
+    grid-template-columns: 1fr;
+    padding: 1rem;
   }
 
-  .btn:hover {
-    background-color: #FF4500;
+  .tablero {
+    grid-template-columns: repeat(6, 1fr);
   }
 
-  .btn:disabled {
-    background-color: #CCCCCC;
-    cursor: not-allowed;
+  .panel {
+    position: static;
+    order: -1;
   }
 
+  /* En celular el personaje y los botones van en fila arriba del tablero */
+  #panelPartida {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.7rem;
+  }
 
+  #panelPartida.oculto {
+    display: none;
+  }
 
+  .turno {
+    grid-column: 1 / -1;
+    padding: 0.5rem;
+  }
 
+  .mi-personaje {
+    padding: 0.6rem;
+  }
 
+  .historial {
+    grid-column: 1 / -1;
+  }
 
+  .mi-personaje-carta {
+    width: 90px;
+  }
 
+  .panel-acciones {
+    grid-template-columns: 1fr;
+    align-content: start;
+  }
+
+  .historial-lista {
+    max-height: 120px;
+  }
+}
+
+@media (max-width: 600px) {
+  .barra {
+    padding: 0.6rem 1rem;
+  }
+
+  .barra-esfera {
+    width: 32px;
+    height: 32px;
+  }
+
+  .tablero {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .carta-nombre {
+    font-size: 0.9rem;
+  }
+
+  .modal-caja {
+    padding: 1.2rem;
+  }
+
+  .escribir {
+    flex-direction: column;
+  }
+
+  .lista-preguntas {
+    grid-template-columns: 1fr;
+  }
+
+  .fin-cartas {
+    gap: 0.8rem;
+  }
+
+  .fin-cartas .mi-personaje-carta {
+    width: 110px;
+  }
+}

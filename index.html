@@ -1,138 +1,210 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adivina Quién DBZ</title>
+  <link rel="shortcut icon" href="img/Esfera.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./css/styles.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-  <link rel="shortcut icon" href="img/Esfera.png">
-  <title>Adivina Quien DBZ</title>
 </head>
 
 <body>
 
-  <div id="inicio" class="inicio">
-    <img src="img/Logo.png" alt="LogoDBZ" class="LogoDBZ">
-    <img src="img/AQuien.png" alt="LogoAQ" class="LogoAQ">
-    <button id="jugar-btn" class="btn" onclick="mostrarJuego()">Jugar</button>
-  </div>
+  <!-- PANTALLA DE INICIO -->
+  <section id="inicio" class="inicio">
+    <div class="inicio-contenido">
+      <img src="img/Logo.png" alt="Dragon Ball Z" class="logo-dbz" />
+      <img src="img/AQuien.png" alt="¡Adivina quién soy!" class="logo-aquien" />
 
-  <div id="juego" class="animate__animated">
-    <div class="container shadow">
-      <div class="title"><span id="TittleSpan">Escoge tu personaje</span></div>
-      <div class="body">
-        <div id="tablero" class="tablero-container">
+      <div class="modos" role="tablist">
+        <button class="modo activa" data-modo="cpu">Contra el CPU</button>
+        <button class="modo" data-modo="amigo">Con un amigo</button>
+      </div>
+
+      <div id="menuCPU" class="menu-modo">
+      <div class="dificultad">
+        <span class="dificultad-titulo">Dificultad del CPU</span>
+        <div class="dificultad-opciones">
+          <button class="opcion" data-dificultad="facil">Fácil</button>
+          <button class="opcion activa" data-dificultad="dificil">Difícil</button>
         </div>
-        
-  
-        <div class="containerQ" id="containerQ">
-          <button id="btnElegir" class="btnElegir btn">Elegir Personaje</button>
+        <p class="dificultad-ayuda" id="dificultadAyuda">El CPU siempre hace la pregunta que más personajes descarta.</p>
+      </div>
 
+      <button id="btnJugar" class="btn btn-ki btn-grande">¡Jugar!</button>
+      </div>
+
+      <div id="menuAmigo" class="menu-modo oculto">
+        <div class="sala">
+          <div id="salaInicio" class="sala-inicio">
+            <button id="btnCrearSala" class="btn btn-ki">Crear sala</button>
+            <span class="sala-separador">o únete con el código de tu amigo</span>
+            <form id="formUnirse" class="sala-unirse">
+              <input id="inputCodigo" maxlength="5" placeholder="CÓDIGO" autocomplete="off" aria-label="Código de la sala" />
+              <button type="submit" class="btn btn-secundario">Unirse</button>
+            </form>
+          </div>
+          <div id="salaCreada" class="sala-creada oculto">
+            <span class="dificultad-titulo">Pásale este código a tu amigo</span>
+            <div id="codigoSala" class="sala-codigo"></div>
+            <div class="sala-botones">
+              <button id="btnCopiar" class="btn btn-secundario btn-chico">Copiar enlace</button>
+              <button id="btnCancelarSala" class="btn btn-secundario btn-chico">Cancelar</button>
+            </div>
+          </div>
+          <p id="salaEstado" class="sala-estado" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <ol class="como-jugar">
+        <li>Escoge en secreto tu personaje.</li>
+        <li>Haz preguntas y tacha a los que no son.</li>
+        <li>Adivina el personaje de tu rival antes que él adivine el tuyo.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- PANTALLA DE JUEGO -->
+  <section id="juego" class="juego oculto">
+
+    <header class="barra">
+      <img src="img/Esfera.png" alt="" class="barra-esfera" />
+      <h1 id="titulo" class="barra-titulo">Escoge tu personaje</h1>
+      <div class="marcadores" id="marcadores">
+        <div class="marcador">
+          <span class="marcador-etiqueta">Te quedan</span>
+          <span class="marcador-valor" id="quedanJugador">24</span>
+          <span class="marcador-extra" id="preguntasJugador">0 preguntas</span>
+        </div>
+        <div class="marcador marcador-cpu">
+          <span class="marcador-etiqueta" id="etiquetaRival">Al CPU le quedan</span>
+          <span class="marcador-valor" id="quedanRival">24</span>
+          <span class="marcador-extra" id="preguntasRival">0 preguntas</span>
+        </div>
+      </div>
+      <button id="btnInicio" class="btn btn-secundario btn-inicio" title="Volver al inicio para cambiar la dificultad">⟵ Inicio</button>
+    </header>
+
+    <div id="avisoAdivinar" class="aviso-adivinar oculto">
+      <span>Haz clic en el personaje que crees que tiene tu rival</span>
+      <button id="btnCancelarAdivinar" class="btn btn-secundario btn-chico">Cancelar</button>
+    </div>
+
+    <main class="zona-juego">
+      <div id="tablero" class="tablero"></div>
+
+      <aside class="panel">
+        <div id="panelElegir" class="panel-bloque">
+          <p class="panel-texto" id="textoElegir">Haz clic en un personaje para escogerlo.</p>
+          <button id="btnElegir" class="btn btn-ki" disabled>Confirmar personaje</button>
         </div>
 
-        <div class="containerQuestions" id="containerQuestions">
-          
-          <div id="PElegir" class="PElegir-container"></div>
-          <div class="ButtonsQ">
-          <button id="btnPreguntas" class="btnPreguntas btn">preguntas</button>
-          <button id="btnTurno" class="btnTurno btn">Turno CPU</button>
-          <button id="btnAdivinar" class="btnAdivinar btn">Adivina</button>
-          <span>Tu Personaje:</span>
+        <div id="panelPartida" class="oculto">
+          <div class="panel-bloque turno" id="turno">Tu turno</div>
+
+          <div class="panel-bloque mi-personaje">
+            <span class="panel-subtitulo">Tu personaje</span>
+            <div id="miPersonaje" class="mi-personaje-carta"></div>
+          </div>
+
+          <div class="panel-acciones">
+            <button id="btnPreguntar" class="btn btn-ki">Preguntar</button>
+            <button id="btnAdivinar" class="btn btn-secundario">Adivinar</button>
+          </div>
+
+          <div class="panel-bloque historial">
+            <span class="panel-subtitulo">Historial</span>
+            <ul id="listaHistorial" class="historial-lista">
+              <li class="historial-vacio">Aún no hay preguntas.</li>
+            </ul>
           </div>
         </div>
-        
-        
+      </aside>
+    </main>
+  </section>
+
+  <!-- MODAL: PREGUNTAS DEL JUGADOR -->
+  <div id="modalPreguntas" class="modal oculto" role="dialog" aria-modal="true" aria-labelledby="tituloPreguntas">
+    <div class="modal-caja modal-preguntas">
+      <button class="modal-cerrar" id="btnCerrarPreguntas" aria-label="Cerrar">✕</button>
+      <h2 id="tituloPreguntas" class="modal-titulo">Haz tu pregunta</h2>
+
+      <form id="formEscribir" class="escribir">
+        <input id="inputPregunta" type="text" autocomplete="off" placeholder="Escribe tu pregunta, ej: ¿es calvo?" />
+        <button type="submit" class="btn btn-ki">Preguntar</button>
+      </form>
+      <div id="mensajeEscribir" class="escribir-mensaje"></div>
+
+      <div id="pestanas" class="pestanas" role="tablist"></div>
+      <div id="listaPreguntas" class="lista-preguntas"></div>
+    </div>
+  </div>
+
+  <!-- MODAL: PREGUNTA DEL CPU -->
+  <div id="modalCPU" class="modal oculto" role="dialog" aria-modal="true" aria-labelledby="preguntaCPU">
+    <div class="modal-caja modal-cpu">
+      <span class="modal-etiqueta">El CPU pregunta</span>
+      <h2 id="preguntaCPU" class="modal-titulo"></h2>
+      <div class="cpu-referencia">
+        <div id="cpuReferencia" class="mi-personaje-carta mini"></div>
+        <span>Fíjate en tu personaje</span>
+      </div>
+      <div class="si-no">
+        <button id="btnSi" class="btn btn-si">Sí</button>
+        <button id="btnNo" class="btn btn-no">No</button>
+      </div>
+      <p id="pistaCPU" class="pista"></p>
+    </div>
+  </div>
+
+  <!-- RESPUESTA RÁPIDA (SÍ / NO) -->
+  <div id="respuesta" class="respuesta oculto">
+    <span id="respuestaPregunta" class="respuesta-pregunta"></span>
+    <span id="respuestaTexto" class="respuesta-texto"></span>
+  </div>
+
+  <!-- MODAL: FIN DE PARTIDA -->
+  <div id="modalFin" class="modal oculto" role="dialog" aria-modal="true" aria-labelledby="tituloFin">
+    <div class="modal-caja modal-fin">
+      <h2 id="tituloFin" class="fin-titulo"></h2>
+      <p id="textoFin" class="fin-texto"></p>
+      <div class="fin-cartas">
+        <div>
+          <span class="panel-subtitulo">Tu personaje</span>
+          <div id="finJugador" class="mi-personaje-carta"></div>
+        </div>
+        <div>
+          <span class="panel-subtitulo" id="etiquetaFinRival">Personaje del CPU</span>
+          <div id="finRival" class="mi-personaje-carta"></div>
+        </div>
+      </div>
+      <p id="statsFin" class="fin-stats"></p>
+      <div class="fin-botones">
+        <button id="btnReiniciar" class="btn btn-ki btn-grande">Jugar de nuevo</button>
+        <button id="btnFinInicio" class="btn btn-secundario">Cambiar dificultad</button>
       </div>
     </div>
   </div>
-  
-  
 
-
-            <!-- PREGUNTAS CPU -->
-  <div class="alert-wrap" id="alert-wrap">
-    <div class="error-color"> </div>
-    <div class="alert-error" id="alert-error">
-
-      <div class="preguntas-container">
-        <span id="pregunta"></span>
-      </div>
-
-      <div class="btn-container">
-        <button id="btn_si" class="btn btn-success w-100">Si</button>
-        <button id="btn_no" class="btn btn-danger w-100">No</button>
-      </div>
-
+  <!-- MODAL: EL AMIGO SE DESCONECTÓ -->
+  <div id="modalAviso" class="modal oculto" role="dialog" aria-modal="true" aria-labelledby="tituloAviso">
+    <div class="modal-caja modal-fin">
+      <h2 id="tituloAviso" class="fin-titulo pierde">Desconectado</h2>
+      <p class="fin-texto">Tu amigo salió de la partida o se perdió la conexión.</p>
+      <button id="btnAvisoInicio" class="btn btn-ki">Volver al inicio</button>
     </div>
-</div>
+  </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <button id="btnSonido" class="btn-sonido" aria-label="Silenciar">🔊</button>
 
-            <!-- Preguntas de Usuarios -->
-      <div class="alert-wrap" id="alert-wrap">
-        <div class="error-color"> </div>
-        <div class="alert-error" id="alert-error">
-        
-          <div class="preguntas-container">
-          <span id="pregunta"></span>
-          </div>
-          
-          <div class="btn-container">
-          <button id="btn_si" class="btn btn-success w-100">Si</button>
-          <button id="btn_no" class="btn btn-danger w-100">No</button>
-          </div>
-          
-          </div>
-          </div>
-
-                <!-- Preguntas de Usuarios -->
-                <div class="wrap-Questions" id="wrap-Questions">
-                  <div class="error-color"></div>
-                  <div class="alert-Questions" id="alert-Questions">
-                    <h2>Realiza tu pregunta</h2>
-                    <div class="question-row">
-                      <button onclick="askQuestion('colorCabello')">¿El personaje tiene el cabello de color negro?</button>
-                      <button onclick="askQuestion('sexo')">¿El personaje es mujer?</button>
-                      <button onclick="askQuestion('colorRopa')">¿El personaje utiliza ropa de color naranja?</button>
-                      <button onclick="askQuestion('accesoriosCabeza')">¿Tu personaje utiliza algún accesorio en la cabeza?</button>
-                      <button onclick="askQuestion('raza')">¿El personaje es un saiyajin?</button>
-                      <button onclick="askQuestion('fusion')">¿Tu personaje se ha fusionado con otro personaje?</button>
-                    </div>
-                    <div class="question-row">
-                      <button onclick="askQuestion('Edad')">¿El personaje es un niño?</button>
-                      <button onclick="askQuestion('capa')">¿Tu personaje utiliza capa o un caparazón?</button>
-                      <button onclick="askQuestion('revivido')">¿Tu personaje ha sido revivido con las esferas del Dragón?</button>
-                      <button onclick="askQuestion('TipoCabello')">¿Tu personaje es calvo?</button>
-                      <button onclick="askQuestion('torneo')">¿Tu personaje ha participado en torneos de artes marciales?</button>
-                      <button onclick="askQuestion('Transformacion')">¿Tu personaje tiene algún tipo de transformación?</button>
-                    </div>
-                  </div>
-                </div>
-
-                    <!-- ALERT TEXT -->
-                <div class="alert-text" id="alert-text">
-                  <div class="wrapper-alertT">
-                  <p>Aquí va el texto</p>
-              </div>
-          </div>
-
-
-          <!-- PERSONAJE ADIVINADO -->
-          <div class="character-wrap" id="character-wrap"> 
-            <div class="error-color"> </div>
-            <div class="container-character" id="container-character">
-                <span id="spanCharacter">Tu Personaje es</span>
-                <div class="character" id="character"></div>
-                <button class="btncharacter" id="btncharacter">Jugar de Nuevo</button>
-          </div>
-          </div>
-                
-                
-
-
-
+  <script src="./js/sonidos.js"></script>
   <script src="./js/main.js"></script>
+  <script src="./js/multijugador.js"></script>
 </body>
 
 </html>
