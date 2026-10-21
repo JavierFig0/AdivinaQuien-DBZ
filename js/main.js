@@ -179,11 +179,11 @@ const personajes = [
     torneo: true, revivido: true, habitacionTiempo: false, fusion: false, transformacion: false,
   },
   {
-    id: 15, nombre: "Lunch", img: "img/Lunch.webp",
-    colorCabello: "azul", colorRopa: "amarillo", sexo: "mujer", edad: "adulto", raza: "humano",
+    id: 15, nombre: "Pan", img: "img/Pan.webp",
+    colorCabello: "negro", colorRopa: "rojo", sexo: "mujer", edad: "niño", raza: "saiyajin",
     capa: false, armadura: false, accesorioCabeza: true, bigote: false, antenas: false, pielVerde: false, lentes: false,
-    villano: false, familiaGoku: false, familiaVegeta: false, ejercitoFreezer: false,
-    torneo: false, revivido: false, habitacionTiempo: false, fusion: false, transformacion: true,
+    villano: false, familiaGoku: true, familiaVegeta: false, ejercitoFreezer: false,
+    torneo: true, revivido: false, habitacionTiempo: false, fusion: false, transformacion: false,
   },
   {
     id: 16, nombre: "Majin Buu", img: "img/Super_Buu.webp",
@@ -207,10 +207,10 @@ const personajes = [
     torneo: true, revivido: false, habitacionTiempo: false, fusion: false, transformacion: false,
   },
   {
-    id: 19, nombre: "Raditz", img: "img/Raditz.webp",
-    colorCabello: "negro", colorRopa: "negro", sexo: "hombre", edad: "adulto", raza: "saiyajin",
-    capa: false, armadura: true, accesorioCabeza: false, bigote: false, antenas: false, pielVerde: false, lentes: false,
-    villano: true, familiaGoku: true, familiaVegeta: false, ejercitoFreezer: true,
+    id: 19, nombre: "Dr. Gero", img: "img/Dr_Gero.webp",
+    colorCabello: "blanco", colorRopa: "cafe", sexo: "hombre", edad: "adulto", raza: "androide",
+    capa: false, armadura: false, accesorioCabeza: true, bigote: true, antenas: false, pielVerde: false, lentes: false,
+    villano: true, familiaGoku: false, familiaVegeta: false, ejercitoFreezer: false,
     torneo: false, revivido: false, habitacionTiempo: false, fusion: false, transformacion: false,
   },
   {
@@ -228,18 +228,18 @@ const personajes = [
     torneo: false, revivido: false, habitacionTiempo: false, fusion: false, transformacion: true,
   },
   {
-    id: 22, nombre: "Yamcha", img: "img/Yamcha.webp",
-    colorCabello: "negro", colorRopa: "naranja", sexo: "hombre", edad: "adulto", raza: "humano",
-    capa: false, armadura: false, accesorioCabeza: false, bigote: false, antenas: false, pielVerde: false, lentes: false,
+    id: 22, nombre: "Nail", img: "img/Nail.webp",
+    colorCabello: "ninguno", colorRopa: "blanco", sexo: "hombre", edad: "adulto", raza: "namekiano",
+    capa: false, armadura: false, accesorioCabeza: false, bigote: false, antenas: true, pielVerde: true, lentes: false,
     villano: false, familiaGoku: false, familiaVegeta: false, ejercitoFreezer: false,
-    torneo: true, revivido: true, habitacionTiempo: false, fusion: false, transformacion: false,
+    torneo: false, revivido: false, habitacionTiempo: false, fusion: true, transformacion: false,
   },
   {
-    id: 23, nombre: "Dabura", img: "img/Dabura.webp",
-    colorCabello: "ninguno", colorRopa: "azul", sexo: "hombre", edad: "adulto", raza: "demonio",
-    capa: true, armadura: false, accesorioCabeza: false, bigote: false, antenas: false, pielVerde: false, lentes: false,
+    id: 23, nombre: "Lord Slug", img: "img/Lord_Slug.webp",
+    colorCabello: "ninguno", colorRopa: "morado", sexo: "hombre", edad: "adulto", raza: "namekiano",
+    capa: true, armadura: false, accesorioCabeza: true, bigote: false, antenas: false, pielVerde: true, lentes: false,
     villano: true, familiaGoku: false, familiaVegeta: false, ejercitoFreezer: false,
-    torneo: false, revivido: false, habitacionTiempo: false, fusion: false, transformacion: false,
+    torneo: false, revivido: false, habitacionTiempo: false, fusion: false, transformacion: true,
   },
   {
     id: 24, nombre: "Milk", img: "img/Milk.webp",
@@ -390,7 +390,10 @@ function nuevaPartida() {
   tablero.innerHTML = personajes
     .map((personaje, i) => `
       <button class="carta" data-id="${personaje.id}" style="animation-delay: ${i * 25}ms">
-        <img src="${personaje.img}" alt="${personaje.nombre}" />
+        <span class="carta-figura">
+          <img src="${personaje.img}" alt="${personaje.nombre}" />
+          <span class="carta-heridas" style="-webkit-mask-image: url('${personaje.img}'); mask-image: url('${personaje.img}')"></span>
+        </span>
         <span class="carta-nombre">${personaje.nombre}</span>
       </button>
     `)
@@ -515,9 +518,11 @@ function agregarHistorial(quien, texto, si) {
   const item = document.createElement("li");
   item.innerHTML = `
     <span class="historial-quien ${quien === "rival" ? "cpu" : ""}">${etiqueta}</span>
-    <span>${texto}</span>
+    <span class="historial-texto"></span>
     ${etiquetaRespuesta(si)}
   `;
+  // textContent porque en modo amigo el texto lo escribe la otra persona
+  item.querySelector(".historial-texto").textContent = texto;
   lista.prepend(item);
 }
 
@@ -541,6 +546,9 @@ function mostrarRespuesta(texto, si, alTerminar) {
 btnPreguntar.addEventListener("click", function () {
   sonar("teletransporte");
   inputPregunta.value = "";
+  inputPregunta.placeholder = modo === "amigo"
+    ? "Pregunta lo que quieras, ej: ¿tiene cola?"
+    : "Escribe tu pregunta, ej: ¿es calvo?";
   mostrarMensaje("");
   dibujarPreguntas();
   abrirModal(modalPreguntas);
@@ -592,9 +600,9 @@ function hacerPregunta(pregunta) {
   cerrarModal(modalPreguntas);
 
   if (modo === "amigo") {
-    // Solo el navegador de tu amigo sabe la respuesta: se la preguntamos y esperamos
+    // Tu amigo lee la pregunta y contesta él mismo con Sí o No
     cambiarTurno("esperando");
-    enviar({ tipo: "pregunta", id: pregunta.id });
+    enviar({ tipo: "pregunta", id: pregunta.id, texto: pregunta.texto });
   } else {
     recibirRespuesta(pregunta, respondeSi(personajeRival, pregunta));
   }
@@ -646,6 +654,12 @@ $("formEscribir").addEventListener("submit", function (e) {
   e.preventDefault();
   if (inputPregunta.value.trim() === "") return;
 
+  // Con un amigo se puede preguntar lo que sea: no hace falta entender la pregunta
+  if (modo === "amigo") {
+    hacerPregunta(preguntaLibre(inputPregunta.value));
+    return;
+  }
+
   const opciones = interpretarPregunta(inputPregunta.value);
 
   if (opciones.length === 1) {
@@ -667,6 +681,10 @@ mensajeEscribir.addEventListener("click", function (e) {
   const sugerencia = e.target.closest(".sugerencia");
   if (sugerencia) hacerPregunta(buscarPregunta(sugerencia.dataset.id));
 });
+
+function preguntaLibre(texto) {
+  return { id: "libre:" + normalizar(texto), texto: texto.trim() };
+}
 
 function mostrarMensaje(texto, esError = false) {
   mensajeEscribir.textContent = texto;
@@ -728,14 +746,15 @@ function turnoCPU() {
 
   preguntaActualCPU = pregunta;
   preguntasCPU = preguntasCPU.filter((p) => p !== pregunta);
+  $("etiquetaPregunta").textContent = "El CPU pregunta";
   $("preguntaCPU").textContent = pregunta.texto;
   $("pistaCPU").textContent = "";
   sonar("teletransporte");
   abrirModal(modalCPU);
 }
 
-$("btnSi").addEventListener("click", () => responderCPU(true));
-$("btnNo").addEventListener("click", () => responderCPU(false));
+$("btnSi").addEventListener("click", () => (modo === "amigo" ? responderAlAmigo(true) : responderCPU(true)));
+$("btnNo").addEventListener("click", () => (modo === "amigo" ? responderAlAmigo(false) : responderCPU(false)));
 
 function responderCPU(respuesta) {
   const pregunta = preguntaActualCPU;

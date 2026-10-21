@@ -134,7 +134,7 @@
       <h2 id="tituloPreguntas" class="modal-titulo">Haz tu pregunta</h2>
 
       <form id="formEscribir" class="escribir">
-        <input id="inputPregunta" type="text" autocomplete="off" placeholder="Escribe tu pregunta, ej: ¿es calvo?" />
+        <input id="inputPregunta" type="text" maxlength="120" autocomplete="off" placeholder="Escribe tu pregunta, ej: ¿es calvo?" />
         <button type="submit" class="btn btn-ki">Preguntar</button>
       </form>
       <div id="mensajeEscribir" class="escribir-mensaje"></div>
@@ -147,7 +147,7 @@
   <!-- MODAL: PREGUNTA DEL CPU -->
   <div id="modalCPU" class="modal oculto" role="dialog" aria-modal="true" aria-labelledby="preguntaCPU">
     <div class="modal-caja modal-cpu">
-      <span class="modal-etiqueta">El CPU pregunta</span>
+      <span id="etiquetaPregunta" class="modal-etiqueta">El CPU pregunta</span>
       <h2 id="preguntaCPU" class="modal-titulo"></h2>
       <div class="cpu-referencia">
         <div id="cpuReferencia" class="mi-personaje-carta mini"></div>

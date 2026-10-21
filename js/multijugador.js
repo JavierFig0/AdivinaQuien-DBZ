@@ -92,13 +92,42 @@ function crearSala() {
 $("btnCopiar").addEventListener("click", async function () {
   // Enlace que une directo a la sala: .../index.html?sala=K7P2Q
   const enlace = `${location.href.split("?")[0]}?sala=${$("codigoSala").textContent}`;
-  try {
-    await navigator.clipboard.writeText(enlace);
+  if (await copiarTexto(enlace)) {
     mostrarEstadoSala("¡Enlace copiado! Mándaselo a tu amigo.");
-  } catch {
+  } else {
     mostrarEstadoSala(`Copia este enlace: ${enlace}`);
   }
 });
+
+async function copiarTexto(texto) {
+  // navigator.clipboard solo existe con https o localhost, por eso hay respaldo
+  if (navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(texto);
+      return true;
+    } catch {}
+  }
+  return copiarConTextarea(texto);
+}
+
+function copiarConTextarea(texto) {
+  const area = document.createElement("textarea");
+  area.value = texto;
+  area.setAttribute("readonly", "");
+  // 16px evita que iOS haga zoom al seleccionar
+  area.style.cssText = "position:fixed;top:0;left:0;opacity:0;font-size:16px;";
+  document.body.appendChild(area);
+  area.focus();
+  area.select();
+  // iOS ignora select(), necesita el rango explícito
+  area.setSelectionRange(0, texto.length);
+  let ok = false;
+  try {
+    ok = document.execCommand("copy");
+  } catch {}
+  area.remove();
+  return ok;
+}
 
 $("btnCancelarSala").addEventListener("click", salirDeSala);
 
@@ -206,7 +235,7 @@ function amigoDesconectado() {
     salirDeSala();
     mostrarEstadoSala("Tu amigo se desconectó.", true);
   } else {
-    [modalPreguntas, $("respuesta")].forEach(cerrarModal);
+    [modalPreguntas, modalCPU, $("respuesta")].forEach(cerrarModal);
     desactivarModoAdivinar();
     btnPreguntar.disabled = true;
     btnAdivinar.disabled = true;
@@ -247,11 +276,11 @@ function recibirMensaje(mensaje) {
       break;
 
     case "pregunta":
-      contestarAlAmigo(buscarPregunta(mensaje.id));
+      contestarAlAmigo({ id: mensaje.id, texto: String(mensaje.texto).slice(0, 120) });
       break;
 
     case "respuesta":
-      recibirRespuesta(buscarPregunta(mensaje.id), mensaje.si);
+      recibirRespuesta({ id: mensaje.id, texto: mensaje.texto }, mensaje.si);
       break;
 
     case "quedan":
@@ -276,14 +305,26 @@ function recibirMensaje(mensaje) {
   }
 }
 
+// Se reutiliza la ventana de preguntas del CPU para que tú contestes Sí o No
 function contestarAlAmigo(pregunta) {
-  const si = respondeSi(miPersonaje, pregunta);
-  enviar({ tipo: "respuesta", id: pregunta.id, si: si });
+  preguntaActualCPU = pregunta;
+  $("etiquetaPregunta").textContent = "Tu amigo pregunta";
+  $("preguntaCPU").textContent = pregunta.texto;
+  $("pistaCPU").textContent = "";
+  sonar("teletransporte");
+  abrirModal(modalCPU);
+}
+
+function responderAlAmigo(si) {
+  const pregunta = preguntaActualCPU;
+  enviar({ tipo: "respuesta", id: pregunta.id, texto: pregunta.texto, si: si });
 
   preguntasRival++;
   agregarHistorial("rival", pregunta.texto, si);
   actualizarMarcadores();
-  mostrarRespuesta(`Tu amigo preguntó: ${pregunta.texto}`, si, () => cambiarTurno("jugador"));
+  cerrarModal(modalCPU);
+  sonar(si ? "si" : "no");
+  cambiarTurno("jugador");
 }
 
 function amigoAdivina(intento, suPersonaje) {
